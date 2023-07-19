@@ -8,14 +8,12 @@ import (
 )
 
 func main() {
-	// Multiplexes requests onto a single handler.
 	m := http.NewServeMux()
 
-	const addr = ":8000"
-
+	// Routes
 	m.HandleFunc("/", handlePage)
 
-	// http://localhost:8000/
+	const addr = ":8000"
 	srv := http.Server{
 		Addr:         addr,
 		Handler:      m,
@@ -23,8 +21,8 @@ func main() {
 		ReadTimeout:  30 * time.Second,
 	}
 
+	// http://localhost:8000/
 	fmt.Println("Server running on port", addr)
-
 	err := srv.ListenAndServe()
 
 	log.Fatalln(err)
@@ -44,6 +42,5 @@ func handlePage(w http.ResponseWriter, r *http.Request) {
 	</body>
 	</html>`
 	w.WriteHeader(200)
-	bytePage := []byte(page)
-	w.Write(bytePage)
+	w.Write([]byte(page))
 }
